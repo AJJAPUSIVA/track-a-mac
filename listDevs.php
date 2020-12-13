@@ -1,7 +1,7 @@
 <?php
 include_once('config.php');
 
-$output = $db->query('SELECT * FROM switches');
+$output = $db->query('SELECT * FROM devices');
 
 while ($device = $output->fetchArray()) {
 
