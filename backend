@@ -102,7 +102,7 @@ def probe_the_switch(ip, port, community, version, connection):
                     listvls = list(combine)
                 for i in range(len(listvls)):
                     num = i + 1
-                    vlanname.append(str(vname) + '(' + vnum + ')')
+                    vlanname.append(str(vname) + vnum)
                     vlansnum.append(num)
         for i in range(len(vlansnum)):
             portlan = '1'
@@ -110,11 +110,11 @@ def probe_the_switch(ip, port, community, version, connection):
             connection.commit()
     except Exception as e:
         print(str(e) + ' ' + str(ip) + ":" + str(port))
-    finish = str(datetime.fromtimestamp(int(time.time())))
-    #  print(finish)
+    end = str(datetime.fromtimestamp(int(time.time())))
+    #  print(end)
     # print('ok!')
     connection.execute("update devices set first_probe=?, last_probe=? where (ip=? and port=?)",
-                 (begin, finish, ip, port))
+                 (begin, end, ip, port))
     connection.commit()
 
 
