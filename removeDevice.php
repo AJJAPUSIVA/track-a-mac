@@ -12,8 +12,8 @@ if(empty($ip) || empty($port)||empty($community) || empty($version)) {
 }
 
 else {
-    $remove = $db->exec("DELETE FROM switches WHERE ip='$ip' AND port='$port'AND community='$community' AND version='$version'");
-    if(!$remove){
+    $deleteDevice = $db->exec("DELETE FROM devices WHERE ip='$ip' AND port='$port'AND community='$community' AND version='$version'");
+    if(!$deleteDevice){
         echo "FALSE";
     }
     else {
