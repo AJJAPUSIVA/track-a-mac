@@ -1,75 +1,147 @@
-commit 723df33a2de520dfe556f6a4b60991f17a41f351
+commit 8c630500311bd00d56e70fc02e741ad6ba7139c7
 Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
-Date:   Sun May 31 19:46:15 2020 +0000
+Date:   Sat Dec 12 20:55:46 2020 -0500
 
-    Add code for search
+    Uncomment the print statements
 
-commit 98d6d16ec166da0a13b3a9254d4f9c649a484633
+commit 6d6b084dbb42f639a980a8a6a7a80c0e0bb355ea
 Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
-Date:   Sun May 31 19:45:42 2020 +0000
+Date:   Sat Dec 12 20:45:32 2020 -0500
 
-    Add handle for list of Devices
+    Add sleep before commiting to database
 
-commit e3bf230f719c6e2e888abc2a261041025cd982ca
+commit a82b614ef56a8979b6d2ff531a5e3331ca199695
 Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
-Date:   Sun May 31 19:43:59 2020 +0000
+Date:   Sat Dec 12 20:44:15 2020 -0500
 
-    Add backend code
+    Add sleep before commiting to database
 
-commit d7386627186969ae13b7f2745580c17cfb2ec99e
+commit abadc7ddd6ce8d9d43d87148ff187842482a2971
 Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
-Date:   Sun May 31 19:42:46 2020 +0000
+Date:   Sat Dec 12 20:42:15 2020 -0500
 
-    Added remove Device handle code
+    Slightly speed up the vlan data commit to databse
 
-commit e6a5562230750ea4de25227c4bfb52a182be9414
+commit 6c63a293c28bff0c0a8baa57a26d7cfa1ba77545
 Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
-Date:   Sun May 31 19:42:09 2020 +0000
+Date:   Sat Dec 12 20:40:22 2020 -0500
 
-    Added list php file
+    slow the commiting of vlans data to database
 
-commit d38b0c60482a3d1f75c08fd2b535056db6fc8f41
-Merge: 082e5e8 c33faf5
+commit 3488a3b8cbc85fd4020dbcb8ff86572ce19d0406
 Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
-Date:   Sun May 31 19:40:57 2020 +0000
+Date:   Sat Dec 12 20:39:14 2020 -0500
 
-    Merge branch 'master' of github.com:AJJAPUSIVA/track-a-mac
+    Modify the list file to track the listofmacs and backedn to orint the vlanname
 
-commit 082e5e8078846cef8014eca83d46fca4b31f8f3d
+commit cb1388cdb8ad3b8ab55b44267d741c31669675c9
 Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
-Date:   Sun May 31 19:40:02 2020 +0000
+Date:   Sat Dec 12 20:32:49 2020 -0500
+
+    Add backend
+
+commit bdcc0a665643039d921eff6140367d6f84e9eb67
+Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
+Date:   Sat Dec 12 20:31:17 2020 -0500
+
+    Resolve the vlanname issue
+
+commit 99cbf5128d7546630446ce789000610b292d213f
+Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
+Date:   Sat Dec 12 20:30:50 2020 -0500
+
+    Add backend
+
+commit 696e2fe8adfa991e5ff450a8986e201feb6cf173
+Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
+Date:   Sat Dec 12 20:07:46 2020 -0500
+
+    Add search.php
+
+commit 652469c1b691d62f3152fea36a1a5d02f8f79e80
+Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
+Date:   Sat Dec 12 20:05:22 2020 -0500
+
+    Add listDevs.php
+
+commit 89e67147346782ce995f9d8a7335aeedccb08880
+Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
+Date:   Sat Dec 12 20:04:17 2020 -0500
+
+    Add removeDevice.php
+
+commit 3ff0f0b2ff418decd1d18c5d458939932b3d8d68
+Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
+Date:   Sat Dec 12 20:00:43 2020 -0500
+
+    Added list.php file
+
+commit 6bf8174774aecb491aa9ea8fdb0f8426c497ef71
+Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
+Date:   Sat Dec 12 19:58:01 2020 -0500
+
+    add addDevice.php@
+
+commit 106603ccc61aa15e87f4830efd7ecab315df5133
+Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
+Date:   Sat Dec 12 19:53:37 2020 -0500
 
     Add config file
 
-commit c33faf51a0418aa900a3ed0aa148b6b1e664a063
+commit bc839ec18fe5c8e9a26d1f65ac23a9c331ed1c61
 Author: AJJAPUSIVA <48119048+AJJAPUSIVA@users.noreply.github.com>
-Date:   Sun May 31 20:48:17 2020 +0200
+Date:   Fri Jun 12 19:20:22 2020 +0200
 
-    Delete list.php
+    Rename search.php.txt to search.php
 
-commit d2b2c76c16e6c636359f5e00f5e4d0e49e813e94
+commit 45ca2859e985ddb80a4a6124894066d20aaf1bfd
 Author: AJJAPUSIVA <48119048+AJJAPUSIVA@users.noreply.github.com>
-Date:   Sun May 31 20:48:03 2020 +0200
+Date:   Fri Jun 12 19:19:45 2020 +0200
 
-    Delete addDevices.sh
+    Rename removeDevice.php.txt to removeDevice.php
 
-commit 7ab8fa52b6d8e0b05b818b6fbc5c4441a1a66823
+commit f94127fd7811096501e0db3c39648a615b55b2ed
+Author: AJJAPUSIVA <48119048+AJJAPUSIVA@users.noreply.github.com>
+Date:   Fri Jun 12 19:18:50 2020 +0200
+
+    Rename listDevs.php.txt to listDevs.php
+
+commit fc0c82ab56544214993bb789c570945da408f95a
+Author: AJJAPUSIVA <48119048+AJJAPUSIVA@users.noreply.github.com>
+Date:   Fri Jun 12 19:18:12 2020 +0200
+
+    Rename list.php.txt to list.php
+
+commit 19a83d3fbc210630430973479bf6f4d98f72cd16
+Author: AJJAPUSIVA <48119048+AJJAPUSIVA@users.noreply.github.com>
+Date:   Fri Jun 12 19:17:24 2020 +0200
+
+    Rename config.php.txt to config.php
+
+commit 8bce723cba27ca125f4acb9f271edcb5f0ff4bc4
+Author: AJJAPUSIVA <48119048+AJJAPUSIVA@users.noreply.github.com>
+Date:   Fri Jun 12 19:15:46 2020 +0200
+
+    Rename backend.txt to backend
+
+commit 7dc82b581b27b011ef2d83f61260aa3d0f007c67
+Author: AJJAPUSIVA <48119048+AJJAPUSIVA@users.noreply.github.com>
+Date:   Fri Jun 12 19:15:22 2020 +0200
+
+    Rename addDevice.php.txt to addDevice.php
+
+commit 6784800ecbcba98015aca54601f5f0e4771f2085
 Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
-Date:   Sun May 31 18:44:22 2020 +0000
+Date:   Fri Jun 12 19:14:23 2020 +0200
 
-    added devices list
+    testing the code
 
-commit a15448c8cc9c294da8a8c10c18937b12fcd42c33
+commit 5425376a4cbd0daac5cb4392ffd2d4b79ad34f22
 Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
-Date:   Sun May 31 17:36:00 2020 +0000
+Date:   Sun May 31 19:49:40 2020 +0000
 
-    Add addDevice code
+    Add log file
 
-commit dd10fbdf837b373c3e022887e217c1bcf8d393f8
-Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
-Date:   Sun May 31 17:34:01 2020 +0000
-
-    Add config file
 commit eaff244f0a0eb30b6b91083a3bf8b012819d3887
 Author: AJJAPUSIVA <siva.ajjapu96@gmail.com>
 Date:   Sun May 31 19:49:08 2020 +0000
