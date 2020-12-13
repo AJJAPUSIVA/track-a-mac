@@ -2,7 +2,7 @@
   include('config.php');
  
    $sql =<<<EOF
-      SELECT * from devices;
+      SELECT * from ListOfMacs;
 EOF;
    $result = $db->query($sql);
    while($row = $result->fetchArray(SQLITE3_ASSOC) ) {
