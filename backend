@@ -36,7 +36,9 @@ def database_connection(db_file):
                 port = int(elements[1])
                 community = elements[2]
                 version = int(elements[3])
+               # print("start the probe")
                 probe_the_switch(ip, port, community, version, connection)
+
 
             connection.close()
 
@@ -52,7 +54,7 @@ def probe_the_switch(ip, port, community, version, connection):
         connection.execute("update devices set failed=? where (ip=? and port=?)", (failed, ip, port))
         connection.commit()
     begin = str(datetime.fromtimestamp(int(time.time())))
-    print(begin)
+    #print(begin)
     try:
         macs = session.walk(oids['dot1dTpFdbEntryAddress'])
         ports = session.walk(oids['dot1dTpFdbEntryPort'])
@@ -62,18 +64,18 @@ def probe_the_switch(ip, port, community, version, connection):
             snmp_type = m.snmp_type
             mac = ':'.join('{:02x}'.format(ord(a)) for a in m.value)
             portval = p.value
-            print(ip,mac,portval)
+           # print(ip,mac,portval)
             devices = connection.execute("SELECT * from ListOfMacs where (port=? and device=?)", (portval, ip))
             fetch_device_data = devices.fetchall()
             for connected_macs in fetch_device_data:
                 m = connected_macs[3]
             if len(fetch_device_data) == 0:
-                print(ip,mac,portval)
+             #   print(ip,mac,portval)
                 connection.execute('''INSERT INTO ListOfMacs(device, vlans, port, macs) values (?,?,?,?)''', (ip, default_vlan, portval, mac))
                 connection.commit()
             elif len(fetch_device_data) == 1 and m.find(mac) == -1:
                 finalmac = m + "," + mac
-                print(finalmac)
+            #    print(finalmac)
                 connection.execute("UPDATE ListOfMacs set macs=? where port=?", (finalmac, portval))
                 connection.commit()
         vlansnum = []
@@ -105,7 +107,7 @@ def probe_the_switch(ip, port, community, version, connection):
                     num = i + 1
                     vlanname.append(str(vname))
                     vlansnum.append(num)
-                    print(vname)
+                #    print(vname)
         for i in range(len(vlansnum)):
             portlan = '1'
             connection.execute("update ListOfMacs set vlans = ? where port=?", (vlanname[i], vlansnum[i]))
@@ -115,14 +117,16 @@ def probe_the_switch(ip, port, community, version, connection):
     except Exception as e:
         print(str(e) + ' ' + str(ip) + ":" + str(port))
     end = str(datetime.fromtimestamp(int(time.time())))
-    print(end)
-    print('OK')
+    #print(end)
+   # print('OK')
     connection.execute("update devices set first_probe=?, last_probe=? where (ip=? and port=?)",
                  (begin, end, ip, port))
     connection.commit()
+#    print("successfully probed the device:" + ip + ":" + port)
 
-print("Db updated!")
 if __name__ == '__main__':
     while True:
+        print("running the track-a-mac software")
+        
         database_connection('nplab.db')
         time.sleep(60)
