@@ -8,13 +8,13 @@ if (empty($_GET)) {
 else {
     $addr = htmlspecialchars($_GET["mac"]);
     $sql = <<<EOF
-              SELECT * FROM List WHERE MACS LIKE "%$addr%" ORDER BY MACS;
+              SELECT * FROM ListOfMacs WHERE macs LIKE "%$addr%" ORDER BY MACS;
 EOF;
     $find = $db->query($sql);
     $arr = array(); 
     while($row = $find->fetchArray(SQLITE3_ASSOC) ){
          #echo $row[1]. "|" . $row[2] . "|" . $row[3] . "|" . $row[4] . "\n";
-         $arr[] = $row['Device']. " | " . $row['VLANS'] . " | " . $row['port'] . " | " . "$addr";
+         $arr[] = $row['device']. " | " . $row['vlans'] . " | " . $row['port'] . " | " . "$addr";
      
     }
 
