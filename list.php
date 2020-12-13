@@ -2,11 +2,11 @@
   include('config.php');
  
    $sql =<<<EOF
-      SELECT * from List;
+      SELECT * from devices;
 EOF;
-   $ret = $db->query($sql);
-   while($row = $ret->fetchArray(SQLITE3_ASSOC) ) {
-      echo   $row['Device']." | ".$row['VLANS']." | ".$row['port']." | ".$row['MACS']."\n";
+   $result = $db->query($sql);
+   while($row = $result->fetchArray(SQLITE3_ASSOC) ) {
+      echo   $row['device']." | ".$row['vlans']." | ".$row['port']." | ".$row['macs']."\n";
 
    }
    
