@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 
 import time
@@ -7,31 +7,8 @@ import sqlite3
 from easysnmp import Session
 from sqlite3 import Error
 
-VL = 'DEFAULT_VLAN(1)'
-
-
-def create_connection(db_file):
-    """ create a database connection to a SQLite database """
-    conn = None
-    try:
-        conn = sqlite3.connect(db_file)
-    except Error as e:
-        print(e)
-    finally:
-        if conn:
-            data = conn.execute('Select * from switches')
-            for items in data:
-                ip = items[0]
-                port = int(items[1])
-                community = items[2]
-                version = int(items[3])
-                probe_device(ip, port, community, version, conn)
-
-            conn.close()
-
-
-def probe_device(ip, port, community, version, conn):
-    oids = {'dot1dTpFdbEntryAddress': '1.3.6.1.2.1.17.4.3.1.1',
+default_vlan = 'DEFAULT_VLAN'
+oids = {'dot1dTpFdbEntryAddress': '1.3.6.1.2.1.17.4.3.1.1',
             'dot1dTpFdbEntryPort': '1.3.6.1.2.1.17.4.3.1.2',
             'dot1qTpFdbEntryStatus': '1.3.6.1.2.1.17.4.3.1.3',
             'dot1qTpFdbAddress': '1.3.6.1.2.17.7.1.2.2.1.1',
@@ -40,17 +17,42 @@ def probe_device(ip, port, community, version, conn):
             'dot1qVlanStaticName': '1.3.6.1.2.1.17.7.1.4.3.1.1',
             'sysDescr': '1.1.3.6.1.2.1.1.1',
             'dot1dBasePortIfIndex': '1.3.6.1.2.1.17.1.4.1.2',
-            'vlans': '1.3.6.1.2.1.17.7.1.4.3.1.4'}
+            'vlans': '1.3.6.1.2.1.17.7.1.4.3.1.4'
+        }
+
+
+def database_connection(db_file):
+    
+    connection = None
+    try:
+        connection = sqlite3.connect(db_file)
+    except Error as e:
+        print(e)
+    finally:
+        if connection:
+            devices = connection.execute('Select * from devices')
+            for elements in devices:
+                ip = elements[0]
+                port = int(elements[1])
+                community = elements[2]
+                version = int(elements[3])
+                probe_the_switch(ip, port, community, version, connection)
+
+            connection.close()
+
+
+def probe_the_switch(ip, port, community, version, connection):
+    
     try:
         session = Session(hostname=ip, remote_port=port, version=version, community=community)
     except Exception as e:
         print(e)
-        failed_attempts = conn.execute("select failed_attempts from switches where ip=?, port=?", (ip, port))
-        failed_attempts += 1
-        conn.execute("update switches set failed_attempts=? where (ip=? and port=?)", (failed_attempts, ip, port))
-        conn.commit()
-    start = str(datetime.fromtimestamp(int(time.time())))
-    #  print(start)
+        failed = connection.execute("select failed from devices where ip=?, port=?", (ip, port))
+        failed += 1
+        connection.execute("update devices set failed=? where (ip=? and port=?)", (failed, ip, port))
+        connection.commit()
+    begin = str(datetime.fromtimestamp(int(time.time())))
+    #  print(begin)
     try:
         macs = session.walk(oids['dot1dTpFdbEntryAddress'])
         ports = session.walk(oids['dot1dTpFdbEntryPort'])
@@ -61,18 +63,18 @@ def probe_device(ip, port, community, version, conn):
             mac = ':'.join('{:02x}'.format(ord(a)) for a in m.value)
             portval = p.value
             #  print(ip,mac,portval)
-            data = conn.execute("SELECT * from List where (port=? and Device=?)", (portval, ip))
-            fetch_data = data.fetchall()
-            for connected_macs in fetch_data:
+            devices = connection.execute("SELECT * from ListOfMacs where (port=? and device=?)", (portval, ip))
+            fetch_device_data = devices.fetchall()
+            for connected_macs in fetch_device_data:
                 m = connected_macs[3]
-            if len(fetch_data) == 0:
+            if len(fetch_device_data) == 0:
                 #     print(ip,mac,portval)
-                conn.execute('''INSERT INTO List(Device, VLANS, port, MACS) values (?,?,?,?)''', (ip, VL, portval, mac))
-                conn.commit()
-            elif len(fetch_data) == 1 and m.find(mac) == -1:
+                connection.execute('''INSERT INTO ListOfMacs(device, vlans, port, macs) values (?,?,?,?)''', (ip, default_vlan, portval, mac))
+                connection.commit()
+            elif len(fetch_device_data) == 1 and m.find(mac) == -1:
                 finalmac = m + "," + mac
-                conn.execute("UPDATE List set MACS=? where port=?", (finalmac, portval))
-                conn.commit()
+                connection.execute("UPDATE ListOfMacs set macs=? where port=?", (finalmac, portval))
+                connection.commit()
         vlansnum = []
         vlanname = []
         vlans = session.walk(oids['vlans'])
@@ -88,7 +90,7 @@ def probe_device(ip, port, community, version, conn):
             vnums = oid.split('.')
             vnum = str(vnums[-1])
             combine = ''
-            if vname != VL:
+            if vname != default_vlan:
                 for i in range(len(values)):
                     hexlist = values
                     mac_hex = hexlist[i]
@@ -99,26 +101,26 @@ def probe_device(ip, port, community, version, conn):
                     orghex = ''
                     listvls = list(combine)
                 for i in range(len(listvls)):
-                    if listvls[i] == '1':
-                        num = i + 1
-                        vlanname.append(str(vname) + '(' + vnum + ')')
-                        vlansnum.append(num)
+                   
+                    num = i + 1
+                    vlanname.append(str(vname) + '(' + vnum + ')')
+                    vlansnum.append(num)
         for i in range(len(vlansnum)):
             portlan = '1'
-            conn.execute("update List set VLANS = ? where port=?", (vlanname[i], vlansnum[i]))
-            conn.commit()
+            connection.execute("update ListOfMacs set vlans = ? where port=?", (vlanname[i], vlansnum[i]))
+            connection.commit()
     except Exception as e:
         print(str(e) + ' ' + str(ip) + ":" + str(port))
     finish = str(datetime.fromtimestamp(int(time.time())))
     #  print(finish)
     # print('ok!')
-    conn.execute("update switches set first_probetime=?, latest_probetime=? where (ip=? and port=?)",
-                 (start, finish, ip, port))
-    conn.commit()
+    connection.execute("update devices set first_probe=?, last_probe=? where (ip=? and port=?)",
+                 (begin, finish, ip, port))
+    connection.commit()
 
 
 #  print("Db updated!")
 if __name__ == '__main__':
     while True:
-        create_connection('nplab.db')
+        database_connection('nplab.db')
         time.sleep(60)
