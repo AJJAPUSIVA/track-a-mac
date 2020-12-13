@@ -1,32 +1,32 @@
 <?php
-   class MyDB extends SQLite3 {
+   class Trackamacdb extends SQLite3 {
       function __construct() {
          $this->open('nplab.db');
 
        }
 }
-$db = new MyDB();
+$db = new Trackamacdb();
 
 $sq1 =<<<EOF
 
-   CREATE TABLE IF NOT EXISTS List(Device varchar not null,VLANS varchar not null,port varchar,MACS  varchar);
+   CREATE TABLE IF NOT EXISTS ListOfMacs(device varchar not null,vlans varchar not null,port varchar,macs  varchar);
 EOF;
-$ret = $db->exec($sq1);
-if(!$ret){
+$result = $db->exec($sq1);
+if(!$result){
   echo $db->lastErrorMsg();
 }
 $sql =<<<EOF
 
-     CREATE TABLE IF NOT EXISTS switches (ip varchar not null,port varchar not null,community string not null,version varchar not null,first_probetime varchar null,latest_probetime varchar null,failed_attempts int default 0 not null);
+     CREATE TABLE IF NOT EXISTS devices (ip varchar not null,port varchar not null,community string not null,version varchar not null,first_probe varchar null,last_probe varchar null,failed_attempts int default 0 not null);
 
 EOF;
 
 
 
 
-   $ret1 = $db->exec($sql);
+   $result2 = $db->exec($sql);
 
-   if(!$ret1){
+   if(!$result2){
 
       echo $db->lastErrorMsg();
 
