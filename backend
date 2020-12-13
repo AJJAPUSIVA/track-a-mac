@@ -101,7 +101,6 @@ def probe_the_switch(ip, port, community, version, connection):
                     orghex = ''
                     listvls = list(combine)
                 for i in range(len(listvls)):
-                   
                     num = i + 1
                     vlanname.append(str(vname) + '(' + vnum + ')')
                     vlansnum.append(num)
