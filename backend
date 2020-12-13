@@ -109,9 +109,9 @@ def probe_the_switch(ip, port, community, version, connection):
         for i in range(len(vlansnum)):
             portlan = '1'
             connection.execute("update ListOfMacs set vlans = ? where port=?", (vlanname[i], vlansnum[i]))
-            
-            connection.commit()
             time.sleep(1)
+            connection.commit()
+            
     except Exception as e:
         print(str(e) + ' ' + str(ip) + ":" + str(port))
     end = str(datetime.fromtimestamp(int(time.time())))
