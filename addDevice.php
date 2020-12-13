@@ -8,11 +8,11 @@ $community = $_GET['community'];
 $version = $_GET['version'];
 
 if(empty($ip) || empty($port)||empty($community) || empty($version)) {
-    echo "Device not added";
+    echo "FALSE";
 }
 
 else {
-    $result = $db->query('SELECT * FROM switches');
+    $result = $db->query('SELECT * FROM devices');
     $c = 0;
     foreach ($result as $result) {
         if($result['ip']==$ip && $result['port']==$port && $result['community']==$community && $result['version']==$version){
@@ -21,11 +21,11 @@ else {
     }
 
     if ($c ==0){
-        $db->exec("INSERT INTO switches (ip,port,community,version) VALUES ('$ip','$port','$community','$version')");
-        echo "ok, device added sucessfully";
+        $db->exec("INSERT INTO devices (ip,port,community,version) VALUES ('$ip','$port','$community','$version')");
+        echo "OK";
     }
     else {
-        echo "Device not added";
+        echo "FALSE";
     }
 }
 
